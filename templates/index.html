@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crop Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f9f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #2e7d32;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            margin-top: 25px;
+            width: 100%;
+            background-color: #43a047;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #388e3c;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+        .modal {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #2e7d32;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Crop Recommendation System 🌾</h2>
+        <form action="/predict" method="post">
+            <label for="N">Nitrogen:</label>
+            <input type="number" name="N" step="any" required>
+
+            <label for="P">Phosphorus:</label>
+            <input type="number" name="P" step="any" required>
+
+            <label for="K">Potassium:</label>
+            <input type="number" name="K" step="any" required>
+
+            <label for="temperature">Temperature (°C):</label>
+            <input type="number" name="temperature" step="any" required>
+
+            <label for="humidity">Humidity (%):</label>
+            <input type="number" name="humidity" step="any" required>
+
+            <label for="ph">pH Level:</label>
+            <input type="number" name="ph" step="any" required>
+
+            <label for="rainfall">Rainfall (mm):</label>
+            <input type="number" name="rainfall" step="any" required>
+
+            <input type="submit" value="Predict Best Crop">
+        </form>
+
+        {% if prediction_text %}
+            <div class="result">{{ prediction_text }}</div>
+        {% endif %}
+    </div>
+
+</body>
+{% if prediction_text %}
+<div class="modal" id="popup">
+    <div class="modal-content">
+        {{ prediction_text }}
+    </div>
+</div>
+
+<script>
+    // Auto-hide modal after 5 seconds (optional)
+    setTimeout(() => {
+        document.getElementById('popup').style.display = 'none';
+    }, 5000);
+</script>
+{% endif %}
+
+</html>
+
